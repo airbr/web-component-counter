@@ -4,15 +4,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-  <link rel="stylesheet" href="css/style.css">
-  <meta name="description" content="">
+  <title>Web Component Counter</title>
+  <!-- <link rel="stylesheet" href="css/style.css"> -->
+  <meta name="description" content="A Web Component version of the counter decrement/increment example">
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
+  <meta property="og:title" content="Number Counter Web Component Example">
+  <meta property="og:type" content="website">
   <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <meta property="og:image:alt" content="">
+  <!-- <meta property="og:image" content="">
+  <meta property="og:image:alt" content=""> -->
 
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -20,13 +20,146 @@
 
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#fafafa">
+
+  <style>
+
+  :root {
+    --system-ui: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+
+  #count {
+    font-size: 2em;
+  }
+  
+  .shell {
+    font-size: 2em;
+  }
+
+  .shell {
+    font-family: var(--system-ui);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  .inner-shell {
+      display: flex;
+      flex-direction: row;
+  }
+
+  .inner-shell > button {
+    margin: 25px;
+  }
+
+  .button {
+  --button-bg: #342a21;
+  --button-color: #ffffff;
+  --button-hover-bg: #4b4b4a;
+  --button-hover-color: #ffffff;
+  --button-border-width: 3px;
+  --button-border-style: solid;
+  --button-border-color: var(--button-bg);
+  --button-radius: 0.5em;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--button-gap, 0.5em);
+  padding: var(--button-padding, 0.7em 1.2em);
+
+  background: var(--button-bg);
+  color: var(--button-color);
+
+  border-width: var(--button-border-width);
+  border-style: var(--button-border-style);
+  border-color: var(--button-border-color);
+  border-radius: var(--button-radius);
+
+  text-decoration: none;
+  font-weight: var(--button-font-weight, 700);
+  font-size: var(--button-font-size, 1em);
+  letter-spacing: 0.05ch;
+  font-family: sans-serif;
+  line-height: 1.1; /* Set or buttons will be different sizes (<a>/<button>) */
+
+  cursor: pointer;
+}
+
+/* Hover/focus/active */
+.button:hover {
+  background: var(--button-hover-bg);
+  color: var(--button-hover-color);
+}
+
+.button:focus {
+  outline-width: var(--button-outline-width, var(--button-border-width));
+  outline-style: var(--button-outline-style, var(--button-border-style));
+  outline-color: var(--button-outline-color, var(--button-border-color));
+  outline-offset: var(
+    --button-outline-offset,
+    calc(var(--button-border-width) * 2)
+  );
+}
+
+.button:active {
+  transform: scale(99%);
+}
+
+/* Variants */
+.button[data-button-variant="primary"] {
+  --button-bg: #f3de8a;
+  --button-color: #342a21;
+  --button-border-color: currentColor;
+  --button-hover-bg: #f1d979;
+  --button-hover-color: #342a21;
+}
+
+.button[data-button-variant="positive"] {
+  --button-bg: #2d936c;
+  --button-border-color: #107350;
+  --button-hover-bg: #359d75;
+}
+
+.button[data-button-variant="negative"] {
+  --button-bg: #b33c48;
+  --button-border-color: #a62f3d;
+  --button-hover-bg: #c24a56;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <script src="js/app.js"></script>
+  <div class="shell">
+    <counter-element></counter-element>
+    <script type="module">
+    customElements.define('counter-element', class extends HTMLElement {
+    #count = 0;
+    connectedCallback() {
+      this.innerHTML = `
+      <div class="inner-shell">
+      <button class="button" data-button-variant="negative" id="dec">-</button>
+      <p id="count">${this.#count}</p>
+      <button class="button" data-button-variant="positive" id="inc">+</button>
+      </div>
+      `;
+      this.addEventListener('click', e => this.update(e) );
+    }
+    update(e) {
+      if( e.target.nodeName !== 'BUTTON' ) { return }
+      this.#count = e.target.id === 'inc' ? this.#count + 1 : this.#count - 1;
+      this.querySelector('#count').textContent = this.#count;
+      }
+    });
+    </script>
+
+    <output></output>
+
+    <button data-button-variant="primary" class="button" onclick="let output = document.querySelector('output'); output.append(document.createElement('counter-element'));">Add New Counter</button>
+  </div>
+
+  <!-- <script src="js/app.js"></script> -->
 
 </body>
 
