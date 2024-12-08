@@ -27,6 +27,10 @@
     --system-ui: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   }
 
+  h1 {
+    padding: 20px;
+  }
+
   .count {
     font-size: 2em;
     font-variant-numeric: tabular-nums;
@@ -34,10 +38,6 @@
   
   .shell {
     font-size: 2em;
-  }
-
-  footer {
-    font-family: var(--system-ui);
   }
 
   .shell {
@@ -56,6 +56,10 @@
 
   .inner-shell > button {
     margin: 25px;
+  }
+
+  footer {
+    font-family: var(--system-ui);
   }
 
   .button {
@@ -113,6 +117,7 @@
 
 /* Variants */
 .button[data-button-variant="primary"] {
+  margin: 15px;
   --button-bg: #f3de8a;
   --button-color: #342a21;
   --button-border-color: currentColor;
@@ -131,11 +136,12 @@
   --button-border-color: #a62f3d;
   --button-hover-bg: #c24a56;
 }
+
 </style>
 </head>
-
 <body>
   <div class="shell">
+    <h1>&ltcounter-element&gt</h1>
     <counter-element></counter-element>
     <script type="module">
     customElements.define('counter-element', class extends HTMLElement {
@@ -162,8 +168,6 @@
 
     <button title="Add new counter" data-button-variant="primary" class="button" onclick="let output = document.querySelector('output'); output.append(document.createElement('counter-element'));">Add New Counter</button>
   </div>
-
-  <!-- <script src="js/app.js"></script> -->
   <footer style="text-align: center; font-size: 1.2em;">
     <a href="https://github.com/airbr">A demonstration of a web component by Morgan</a>
   </footer>
